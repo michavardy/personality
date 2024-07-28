@@ -1,1 +1,53 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--logos" width="31.88" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 257"><defs><linearGradient id="IconifyId1813088fe1fbc01fb466" x1="-.828%" x2="57.636%" y1="7.652%" y2="78.411%"><stop offset="0%" stop-color="#41D1FF"></stop><stop offset="100%" stop-color="#BD34FE"></stop></linearGradient><linearGradient id="IconifyId1813088fe1fbc01fb467" x1="43.376%" x2="50.316%" y1="2.242%" y2="89.03%"><stop offset="0%" stop-color="#FFEA83"></stop><stop offset="8.333%" stop-color="#FFDD35"></stop><stop offset="100%" stop-color="#FFA800"></stop></linearGradient></defs><path fill="url(#IconifyId1813088fe1fbc01fb466)" d="M255.153 37.938L134.897 252.976c-2.483 4.44-8.862 4.466-11.382.048L.875 37.958c-2.746-4.814 1.371-10.646 6.827-9.67l120.385 21.517a6.537 6.537 0 0 0 2.322-.004l117.867-21.483c5.438-.991 9.574 4.796 6.877 9.62Z"></path><path fill="url(#IconifyId1813088fe1fbc01fb467)" d="M185.432.063L96.44 17.501a3.268 3.268 0 0 0-2.634 3.014l-5.474 92.456a3.268 3.268 0 0 0 3.997 3.378l24.777-5.718c2.318-.535 4.413 1.507 3.936 3.838l-7.361 36.047c-.495 2.426 1.782 4.5 4.151 3.78l15.304-4.649c2.372-.72 4.652 1.36 4.15 3.788l-11.698 56.621c-.732 3.542 3.979 5.473 5.943 2.437l1.313-2.028l72.516-144.72c1.215-2.423-.88-5.186-3.54-4.672l-25.505 4.922c-2.396.462-4.435-1.77-3.759-4.114l16.646-57.705c.677-2.35-1.37-4.583-3.769-4.113Z"></path></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="12.592125mm"
+   height="14.636486mm"
+   viewBox="0 0 12.592125 14.636486"
+   version="1.1"
+   id="svg1"
+   xml:space="preserve"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   sodipodi:docname="vite.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="8.3755251"
+     inkscape:cx="1286.0089"
+     inkscape:cy="298.19026"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="1912"
+     inkscape:window-y="-3"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"><inkscape:page
+       x="-7.4905292e-06"
+       y="4.4624089e-06"
+       width="12.592125"
+       height="14.636486"
+       id="page1"
+       margin="0"
+       bleed="0" /></sodipodi:namedview><defs
+     id="defs1" /><g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-330.77772,-72.237921)"><path
+       style="fill:#000000;stroke-width:0.457694"
+       d="m 335.66273,86.319244 c -0.73127,-0.89239 -1.20489,-1.140074 -2.42004,-1.265439 -1.28986,-0.133079 -1.63857,-0.327377 -1.63857,-0.913045 0,-0.232485 0.0632,-0.523923 0.14051,-0.64765 0.11043,-0.176851 0.0959,-0.336402 -0.068,-0.746189 -0.18875,-0.471806 -0.19044,-0.531365 -0.0179,-0.628044 0.17043,-0.09538 0.17122,-0.126428 0.007,-0.290143 -0.2129,-0.212893 -0.23286,-0.363321 -0.0622,-0.468776 0.0666,-0.04117 0.1211,-0.206753 0.1211,-0.367977 0,-0.220073 -0.12071,-0.354727 -0.48437,-0.540251 -0.66864,-0.341108 -0.62941,-0.601267 0.22914,-1.519028 l 0.7135,-0.762761 -0.0173,-0.826934 c -0.0157,-0.745409 0.0351,-0.936766 0.51463,-1.941022 0.49082,-1.028128 0.52012,-1.142531 0.37922,-1.482724 -0.12819,-0.309438 -0.12272,-0.414463 0.0343,-0.653993 0.44408,-0.677747 2.36656,-1.115695 4.44356,-1.01225 3.81936,0.190226 5.81939,2.088123 5.83237,5.534575 0.006,1.388746 -0.14478,2.091283 -0.68528,3.209074 -0.40088,0.829007 -0.88433,1.449054 -1.32482,1.699105 -0.20794,0.118048 -0.21143,0.216936 -0.064,1.816458 0.0858,0.930386 0.16075,1.827848 0.16667,1.994356 l 0.0107,0.302743 -2.67798,0.03254 -2.67798,0.03254 z"
+       id="path18"
+       sodipodi:nodetypes="ssssssssssscsssssssssscccs"
+       inkscape:export-filename="vite.svg"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" /></g></svg>

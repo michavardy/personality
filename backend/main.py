@@ -1,57 +1,13 @@
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
-from pydantic import BaseModel
-from typing import List
-import markdown
-from bs4 import BeautifulSoup
-#from langchain import LangChain
+from .prompt import create_prompt, chain
+from .objects import rules, scenarios,  PromptRequest, md_to_dict
 from pathlib import Path
 
 app = FastAPI()
 
-class PromptRequest(BaseModel):
-    action: str
-    prompt: str
-
-def parse_soup(soup) -> dict:
-    parsed = {}
-    current_section = None
-
-    for element in soup:
-        if element.name == 'h1':
-            current_section = element.get_text()
-            parsed[current_section] = []
-        elif element.name == 'p' and current_section:
-            parsed[current_section].append(element.get_text())
-        elif element.name == 'ul' and current_section:
-            for li in element.find_all('li'):
-                parsed[current_section].append(li.get_text())
-    return parsed
-
-def md_to_dict(md:str)-> dict:
-    html = markdown.markdown(md)
-    soup = BeautifulSoup(html, 'html.parser')
-    return parse_soup(soup)
-
-rules = md_to_dict(Path('scenarios/rules.md').read_text())
-breakpoint()
-RULES = [
-    "You can describe certain parts of your surroundings.",
-    "You can address a group or specific characters by direction or name.",
-    "You have 10 minutes to solve the problem presented in the scenario."
-]
-
-SCENARIO = "You find yourself in a dark forest. The goal is to find the hidden treasure within 10 minutes."
-
-CHARACTERS = [
-    "character1",
-    "character2",
-    "character3"
-]
-
-# Initialize LangChain
-lc = LangChain()
+scenario_name ='stuck_in_elevator'
+scenario = scenarios[scenario_name]
 
 # Configure CORS
 app.add_middleware(
@@ -64,38 +20,25 @@ app.add_middleware(
 
 @app.get("/rules")
 async def get_rules():
-    return {"rules": RULES}
+    return {"rules": rules}
 
 @app.get("/scenario")
 async def get_scenario():
-    return {"scenario": SCENARIO}
-
-@app.get("/characters")
-async def get_characters():
-    return {"characters": CHARACTERS}
+    return {"scenario": scenarios}
 
 @app.post("/handle_prompt")
 async def handle_prompt(request: PromptRequest):
-    if request.action not in ["describe", "go", "talk"] + CHARACTERS:
-        raise HTTPException(status_code=400, detail="Invalid action.")
-    
-    # For now, we simply send the prompt to LangChain
-    response = lc.generate_text(request.prompt)
+    characters = {char.stem:md_to_dict(char.read_text()) for char in Path(f'scenarios/{scenario_name}/characters').iterdir() if char.stem != "mc"}
+    prompt = create_prompt(
+        action=request.action, 
+        prompt=request.prompt, 
+        rules=rules, 
+        scenario=scenario, 
+        characters=characters, 
+        history=request.history
+        )
+    response = chain.run(prompt=prompt)
     return {"response": response}
-
-@app.exception_handler(HTTPException)
-async def http_exception_handler(request: Request, exc: HTTPException):
-    return JSONResponse(
-        status_code=exc.status_code,
-        content={"detail": exc.detail},
-    )
-
-@app.exception_handler(Exception)
-async def exception_handler(request: Request, exc: Exception):
-    return JSONResponse(
-        status_code=500,
-        content={"detail": "An unexpected error occurred."},
-    )
 
 if __name__ == "__main__":
     import uvicorn

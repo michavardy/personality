@@ -1,18 +1,26 @@
+# Overview
+- a player will be faced with scenerias
+- every scenerio will present a dilemma 
+- dilemmas will require problem solving, communication, and interaction with the player's suroundings 
+- every dilemma will have a nominal solution 
+
 # Rules
-a user will be faced with scenerias
-every scenerio will present a dilemma that will require problem solving, communication, and interaction with the user's suroundings 
-every dilemma will have a nominal solution 
-the user has the following options to interact with the user's surroundings
-    The following commands can be used to prompt the game response 
-        describe: will prompt the game to describe what the user is looking at
-        describe the <object of interest> : used to further describe an object of interest 
-        All: talk to everyone in the situation 
-        Name: address individuals 
-        Go: describe where the user will go 
-        Look: describe where the user will look 
+- a player will have 10 minutes to complete a scenario
+- if a nominal solution has been achieved, the game will stop early
+- a player can interact with the scenario through text prompt
+- a player can provide context to their prompt using action buttons
 
-        For example: User wants to talk to Fred
-        Fred: these grapes are addictive
+# Action Buttons
+- describe: describe what the player is looking at
+- Go: describe where the player will go 
+- microphone: talk to everyone in the situation 
+- Name: talk directly to specific individuals
 
-        example: User wanters to see what is in the bowl 
-        Describe the bowl
+# Prompt
+- there is a prompt field with a send button that a player can send prompt to the game
+- the action buttons will specify the context of this prompt
+
+# Output Window
+- there is an output window above the prompt field that displays the output from the game
+- the output is a textual response from the game to the players prompt
+- this output can also show talk interaction between characters in the game
