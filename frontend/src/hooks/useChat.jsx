@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 const useChat = () => {
   const [rules, setRules] = useState({});
   const [scenarios, setScenarios] = useState({});
-  const baseUrl =`http://${window.location.hostname}:8000`
+  const baseUrl =`http://${window.location.hostname}:80`
   
   const fetchRules = async () => {
     const response = await fetch(`${baseUrl}/rules`);

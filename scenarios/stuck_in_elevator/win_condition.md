@@ -1,0 +1,1 @@
+the player wins the scenario if the player has escaped the elevator or has reschedualed the interview.

@@ -1,1 +1,4 @@
 backend/personality
+.env
+stores
+not_used

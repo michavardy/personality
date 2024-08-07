@@ -7,7 +7,10 @@ from langchain import LLMChain, PromptTemplate
 from langchain.llms import OpenAI
 from langchain.memory import ConversationBufferMemory
 from .objects import PromptRequest, scenarios, md_to_dict, rules
-load_dotenv()
+<<<<<<< HEAD
+#load_dotenv()
+=======
+>>>>>>> 98f7ab9 (removed openai api key)
 llm = OpenAI()
 memory = ConversationBufferMemory()
 
@@ -45,7 +48,6 @@ if __name__ == "__main__":
     scenario_name ='stuck_in_elevator'
     scenario = scenarios[scenario_name]
     characters = {char.stem:md_to_dict(char.read_text()) for char in Path(f'scenarios/{scenario_name}/characters').iterdir() if char.stem != "mc"}
-
     prompt_request = PromptRequest(action='describe', prompt='what am I looking at right now')
     prompt = create_prompt(
         action=prompt_request.action, 
