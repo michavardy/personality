@@ -1,5 +1,5 @@
 prompt: where am i?
-aiko: you are with us in the elevator, we're stuck
+response: you are with us in the elevator, we're stuck
 
 prompt: aiko do you have a phone?
 response: yea, who should I call?

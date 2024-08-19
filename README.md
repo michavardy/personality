@@ -27,7 +27,8 @@ npm run dev
 ```bash
 docker build -t person .
 docker run -d -p 80:80 --name pc person
-docker run --env-file .env -d -p 80:80 --name pc person
+# Copy Key into database
+#docker run --env-file .env -d -p 80:80 --name pc person
 docker stop pc
 docker container prune
 docker image rm person

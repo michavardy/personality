@@ -17,7 +17,7 @@ from .logging_config import setup_logging
 setup_logging()
 logger = logging.getLogger(__name__)
 app = FastAPI()
-vector_store_dict = get_vector_store_dict(from_file=True)
+vector_store_dict = get_vector_store_dict(from_file=False)
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
@@ -78,8 +78,8 @@ async def handle_prompt(prompt_history: list[Prompt]) -> dict[str, list[Prompt]]
         raise HTTPException(status_code=500, detail="Internal Server Error")
 
 
-# Serve static files from /frontend/dist
-#app.mount("/", StaticFiles(directory="frontend/dist", html=True), name="static")
+#Serve static files from /frontend/dist
+app.mount("/", StaticFiles(directory="frontend/dist", html=True), name="static")
 
 if __name__ == "__main__":
     import uvicorn

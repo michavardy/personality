@@ -171,24 +171,29 @@ async def arbiter_node(state: State) -> dict[str,list[CharacterMessage]]:
         prompt_template = PromptTemplate(
         template="""
                 You are a psychologist and a professional social interaction coach:
-
+                
                 Given the conversation history:
                 {character_messages_formatted}
-
-                please select one of the following responses:
+                
+                Please select one of the following responses:
                 {node_messages_formatted}
-
+                
                 **Instructions for Selection:**
                 1. **Best Fit**: Choose the response that best aligns with the tone, flow, and context of the conversation.
                 2. **Direct Relevance**: Ensure the response directly addresses the prompt or question, especially if the user is seeking guidance or clarity.
                 3. **Emotional Intelligence**: Prioritize responses that demonstrate empathy, understanding, and validation of the user’s feelings or concerns.
                 4. **User-Centric**: Focus on what would most benefit the user, offering concise and actionable advice or support.
-                5. **Post-Selection Check**: Before finalizing, quickly assess if the response matches the intended psychological or coaching approach and maintains a natural conversational flow.
-
+                5. **Narrative Coherence**: Ensure the response maintains logical consistency with the ongoing situation. If a significant change, such as exiting the elevator, is mentioned, it should be supported by prior context or a logical explanation.
+                6. **Realism**: Verify that any significant changes in the scenario, like the elevator opening, are reasonably explained. The narrative should reflect realistic developments based on the preceding conversation.
+                
+                **Sanity Check:**
+                - Ensure that the narrative makes sense and does not include unrealistic or unexplained changes, such as the elevator suddenly opening without a valid reason.
+                - If a significant event, like the elevator opening, occurs, confirm that it is justified by prior dialogue or context within the conversation.
+                
                 **Output Requirement:**
                 Only provide the content of the selected response.
                 Do not include any additional text, examples, or explanations.
-
+                
                 <message_content>
             """, 
         input_variables=["character_messages_formatted", "node_messages_formatted"])
