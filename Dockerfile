@@ -37,6 +37,7 @@ COPY --from=build /app/frontend/dist /app/frontend/dist
 
 # Set environment variables
 ENV DB_PATH=/app/stores/test_store
+#ENV  OPENAI_API_KEY=
 RUN python /app/data/vector_database.py --from_file --db_path $DB_PATH
 
 # Expose ports

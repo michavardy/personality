@@ -3,22 +3,30 @@
 import { useEffect, useRef } from 'react';
 
 // eslint-disable-next-line react/prop-types
-const MessageList = ({ history }) => {
+const MessageList = ({ promptHistory }) => {
   const endOfMessagesRef = useRef(null);
 
   useEffect(() => {
     if (endOfMessagesRef.current) {
       endOfMessagesRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [history]);
+  }, [promptHistory]);
+
+  const getColorForCharacter = (character, colorMap) => {
+    return colorMap?.[character] || 'black'; // Default to black if color is not found
+  };
 
   return (
     <div className="w-full h-9/10 overflow-auto p-4 bg-gray-100 mb-28">
-      {history.length > 0 ? (
-        history.map((entry, index) => (
+      {promptHistory.length > 0 ? (
+        promptHistory.map((entry, index) => (
           <div key={index} className="p-2 border-b border-gray-300 text-left">
-            <p className="text-gray-400"><strong>Prompt:</strong> {entry.prompt}</p>
-            <p><strong>Response:</strong> {entry.response.replace("Output", "")}</p>
+            <p className="text-gray-400">
+              <strong style={{ color: getColorForCharacter(entry.speaker, entry.all_characters_color_map) }}>
+                {entry.speaker}
+              </strong> 
+              {`: ${entry.content}`}
+            </p>
           </div>
         ))
       ) : (

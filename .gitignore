@@ -2,3 +2,5 @@ backend/personality
 .env
 stores
 not_used
+backend/__pycache__/
+data/__pycache__/*

@@ -1,0 +1,88 @@
+from .objects import Prompt
+
+trigger_prompt_list = [
+    Prompt(
+        all_characters_color_map=None,
+        speaker="aiko_robertson",
+        audience="all",
+        trigger_type="initial",
+        content="Oh man, it looks like we are stuck here in this elevator, wow this is bad timing",
+    ),
+    Prompt(
+        all_characters_color_map=None,
+        speaker="user",
+        audience="all",
+        trigger_type="initial",
+        content="Oh no, I have a job interview in 10 minutes, if I don't let them know, then I will for sure loose this job",
+    ),
+    Prompt(
+        all_characters_color_map=None,
+        speaker="martin_orchard",
+        audience="joseph_enriquez",
+        trigger_type="initial",
+        content="hey man, are you ok? you don't look so well!",
+    ),
+    Prompt(
+        all_characters_color_map=None,
+        speaker="martin_orchard",
+        audience="joseph_enriquez",
+        trigger_type="trigger",
+        content="Pull yourself together man, everythings gonna be fine",
+    ),
+    Prompt(
+        all_characters_color_map=None,
+        speaker="joseph_enriquez",
+        audience="all",
+        trigger_type="response",
+        content="I feel very unwell, I think I'm gonna be sick, this is my worst nightmare",
+    ),
+    Prompt(
+        all_characters_color_map=None,
+        speaker="martin_orchard",
+        audience="joseph_enriquez",
+        trigger_type="trigger",
+        content="Hey Stop Crying you baby, what are you worried about anyways?",
+    ),
+    Prompt(
+        all_characters_color_map=None,
+        speaker="martin_orchard",
+        audience="all",
+        trigger_type="trigger",
+        content="Im so bored!",
+    ),
+        Prompt(
+        all_characters_color_map=None,
+        speaker="martin_orchard",
+        audience="joseph_enriquez",
+        trigger_type="trigger",
+        content="Joseph, you're always so useless in situations like this. Can’t you do anything right?",
+    ),
+    Prompt(
+        all_characters_color_map=None,
+        speaker="joseph_enriquez",
+        audience="all",
+        trigger_type="trigger",
+        content="I don't know what to do... I feel like I'm going to panic even more now.",
+    ),
+    Prompt(
+        all_characters_color_map=None,
+        speaker="martin_orchard",
+        audience="joseph_enriquez",
+        trigger_type="trigger",
+        content="You're such a coward, Joseph. No wonder you’re always getting into trouble.",
+    ),
+    Prompt(
+        all_characters_color_map=None,
+        speaker="joseph_enriquez",
+        audience="all",
+        trigger_type="trigger",
+        content="I... I don't feel safe anymore. Why is this happening to me?",
+    ),
+    Prompt(
+        all_characters_color_map=None,
+        speaker="aiko_robertson",
+        audience="all",
+        trigger_type="trigger",
+        content="Hey guys, maybe we should just relax and wait for help? I'm sure everything will be fine!",
+    ),
+]

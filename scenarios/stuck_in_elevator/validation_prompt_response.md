@@ -1,5 +1,5 @@
 prompt: where am i?
-response: you look around and see three other individuals in the elevator, one of them has a hand dolley, another has his hands on his head rocking back and forth, and the third is standing looking at you
+aiko: you are with us in the elevator, we're stuck
 
 prompt: aiko do you have a phone?
 response: yea, who should I call?
@@ -138,9 +138,6 @@ response: Yes, I have some rope and a few tools.
 
 prompt: Martin, can you open the emergency hatch and secure the rope?
 response: I'll give it a try.
-
-prompt: Martin, how's it going?
-response: The hatch is open, and I've secured the rope. We can climb out.
 
 prompt: Martin, can everyone climb out safely?
 response: Yes, but we'll need to help each other. Let's go one at a time.

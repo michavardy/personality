@@ -3,24 +3,16 @@ import useChat from './hooks/useChat'
 import GameControl from './components/GameControl';
 import MessageList from './components/MessageList';
 import PromptControls from './components/PromptControls';
+import SignIn from './components/SignIn';
 import { useState, useEffect} from 'react';
+import useIdleKeyboard from './hooks/useIdleKeyboard';
 
 
 function App() {
-  const { rules, scenarios, sendMessage } = useChat();
-  const [scenariosList, setScenariosList] = useState([])
-  const [currentScenario, setCurrentScenario] = useState(null)
-  const [prompt, setPrompt] = useState('')
-  const [history, setHistory] = useState('')
+  const { sendMessage, charactersColorMap, promptHistory} = useChat();
   const [timer, setTimer] = useState(600); // Timer starts at 600 seconds (10 minutes)
-
-useEffect(()=>{
-  setScenariosList(Object.keys(scenarios))
-},[scenarios])
-
-useEffect(()=>{
-  setCurrentScenario(scenariosList[0])
-},[scenariosList])
+  const [username, setUserName] = useState(null)
+  const isIdleKeyboard = useIdleKeyboard(8000, true); // 8 seconds idle time, continuous mode enabled
 
 useEffect(() => {
   if (timer > 0) {
@@ -32,16 +24,39 @@ useEffect(() => {
   }
 }, [timer]);
 
+
+useEffect(() => {
+  const handleIdleTrigger = async () => {
+    if (isIdleKeyboard) {
+    await sendMessage({
+      speaker: null,
+      audience: null,
+      trigger: "trigger",
+      content: null
+    });
+    }
+  };
+
+  handleIdleTrigger();
+}, [isIdleKeyboard, charactersColorMap, promptHistory, sendMessage]); 
+
+
 const formatTime = (seconds) => {
   const minutes = Math.floor(seconds / 60);
   const secs = seconds % 60;
   return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 };
   return (
-    <div className="App">
-      <GameControl rules={rules} currentScenario={currentScenario} scenarios={scenarios} history={history} timer={formatTime(timer)}/>
-      <MessageList prompt={prompt} history={history}/>
-      <PromptControls prompt={prompt} setPrompt={setPrompt} sendMessage={sendMessage} history={history} setHistory={setHistory}/>
+    <div className="h-screen flex flex-col">
+      {username ? (
+        <>
+          <GameControl promptHistory={promptHistory} timer={formatTime(timer)} username={username}/>
+          <MessageList promptHistory={promptHistory} />
+          <PromptControls  sendMessage={sendMessage}  charactersColorMap={charactersColorMap} />
+        </>
+      ) : (
+        <SignIn setUserName={setUserName}/>
+      )}
     </div>
   );
 }

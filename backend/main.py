@@ -1,21 +1,23 @@
 import logging
+import re
+from typing import Dict
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from .rag_prompt import create_prompt, chain
-from .objects import rules, scenarios, PromptRequest, md_to_dict
+from .character_agents import get_response
+from .objects import Prompt
 from pathlib import Path
-
-# Configure logging
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[logging.StreamHandler()]  # Ensure logs go to stdout
-)
+from .logging_config import setup_logging
+from fastapi.templating import Jinja2Templates
+from fastapi import Request
+from .trigger_prompt_bank import trigger_prompt_list
+from .rag_prompt import get_vector_store_dict
+from .logging_config import setup_logging
+setup_logging()
 logger = logging.getLogger(__name__)
-
 app = FastAPI()
-
+vector_store_dict = get_vector_store_dict(from_file=True)
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
@@ -24,51 +26,60 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+colors = [
+    "Maroon",
+    "Orange",
+    "Purple",
+    "Green",
+    "Cyan",
+    "Magenta",
+    "Black",
+    "Gray",
+    "Maroon",
+    "Navy",
+    "Olive",
+    "Teal",
+    "Lime",
+    "Silver",
+    "Aqua",
+    "Fuchsia",
+    "Brown",
+    "Yellow",
+]
 
-scenario_name = 'stuck_in_elevator'
-scenario = scenarios[scenario_name]
 
-@app.get("/rules")
-async def get_rules():
-    breakpoint()
-    try:
-        rules_text = Path('scenarios/rules.md').read_text()
-        print(f"get rules: {rules_text}")
-        return {"rules": rules_text}
-    except Exception as e:
-        print(f"Error reading rules: {e}")
-        raise HTTPException(status_code=500, detail="Internal Server Error")
+@app.get("/characters_color_map")
+async def get_characterss_color_map():
+    characters = [character.stem.lower() for character in Path('scenarios/stuck_in_elevator/characters').iterdir() if character.stem != "mc"]
+    select_colors = colors[:len(characters)]
+    character_color_map = {**{"user":"blue","all":"red"}, **{character:select_colors[index].lower() for index, character in enumerate(characters)}}
+    return {"characters_color_map":character_color_map}
 
-@app.get("/scenario")
-async def get_scenario():
-    try:
-        scenario_text = Path('scenarios/stuck_in_elevator/scenario.md').read_text()
-        print(f"get scenario: {scenario_text}")
-        return {"scenario": scenario_text}
-    except Exception as e:
-        print(f"Error reading scenario: {e}")
-        raise HTTPException(status_code=500, detail="Internal Server Error")
+@app.get("/initial_prompt")
+async def get_initial_prompt() -> dict[str, list[Prompt]]:
+    initial_prompt_history = [prompt for prompt in trigger_prompt_list if prompt.trigger_type == "initial"]
+    return {"response": initial_prompt_history}
+
+@app.post("/trigger_prompt")
+async def trigger_prompt(prompt_history: list[Prompt]) -> dict[str, list[Prompt]]:
+    # prompt: initialPrompt.prompt, source:initialPrompt.source, destination: initialPrompt.destination, response:""
+    response = await get_response(prompt_history)
+    return {"response":response}
 
 @app.post("/handle_prompt")
-async def handle_prompt(request: PromptRequest):
-    print(f'handle prompt: {request}')
+async def handle_prompt(prompt_history: list[Prompt]) -> dict[str, list[Prompt]]:
     try:
-        prompt = create_prompt(
-            action=request.action,
-            prompt=request.prompt,
-            rules=rules,
-            scenario=scenario,
-            history=request.history
-        )
-        response = chain.run(prompt=prompt)
-        return {"response": response}
+        if prompt_history[-1].trigger_type == "trigger":
+            breakpoint()
+        response = await get_response(prompt_history, vector_store_dict)
+        return {"response":response}
     except Exception as e:
         print(f"Error handling prompt: {e}")
         raise HTTPException(status_code=500, detail="Internal Server Error")
 
 
 # Serve static files from /frontend/dist
-app.mount("/", StaticFiles(directory="frontend/dist", html=True), name="static")
+#app.mount("/", StaticFiles(directory="frontend/dist", html=True), name="static")
 
 if __name__ == "__main__":
     import uvicorn
