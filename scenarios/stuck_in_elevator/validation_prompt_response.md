@@ -106,9 +106,6 @@ response: They confirmed maintenance is on their way and will arrive soon.
 prompt: Martin, can you use the hand dolly to try to force the elevator doors open?
 response: Sure, I'll give it a try.
 
-prompt: Martin, how's it going?
-response: It's tough, but I think I can get the doors open a bit.
-
 prompt: Martin, do you need help with the dolly?
 response: Yes, a little help would be great.
 
