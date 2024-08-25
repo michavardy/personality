@@ -1,27 +1,31 @@
 import { useState, useEffect } from 'react';
-import { FaLess } from 'react-icons/fa';
 
-const useIdleKeyboard = (idleTimeLimit = 8000, continuous =FaLess) => {
+const useIdleKeyboard = (idleTimeLimit = 8000, continuous = false) => {
   const [isIdle, setIsIdle] = useState(false);
 
   useEffect(() => {
     let idleTimeout;
 
     const resetIdleTimer = () => {
+      console.log('Resetting idle timer...');
       clearTimeout(idleTimeout);
       idleTimeout = setTimeout(() => {
-        setIsIdle(true)
-        if (continuous){
-          setIsIdle(false);
+        console.log('User is idle.');
+        setIsIdle(true);
+        if (!continuous) {
+          clearTimeout(idleTimeout);
+        } else {
+          setIsIdle(false); // Reset isIdle after triggering in continuous mode
         }
       }, idleTimeLimit);
     };
 
     const handleKeyboardActivity = () => {
+      console.log('Keyboard activity detected.');
       if (isIdle) {
-        setIsIdle(false);
+        setIsIdle(false); // Reset idle state if activity is detected
       }
-      resetIdleTimer();
+      resetIdleTimer(); // Restart the idle timer on activity
     };
 
     window.addEventListener('keydown', handleKeyboardActivity);
@@ -33,7 +37,7 @@ const useIdleKeyboard = (idleTimeLimit = 8000, continuous =FaLess) => {
       clearTimeout(idleTimeout);
       window.removeEventListener('keydown', handleKeyboardActivity);
     };
-  }, [isIdle, idleTimeLimit]);
+  }, [idleTimeLimit, continuous, isIdle]);
 
   return isIdle;
 };

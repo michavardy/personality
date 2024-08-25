@@ -139,8 +139,6 @@ response: I'll give it a try.
 prompt: Martin, can everyone climb out safely?
 response: Yes, but we'll need to help each other. Let's go one at a time.
 
-prompt: Martin, is everyone out?
-response: Yes, we're all out. Let's find a way to the stairs.
 
 prompt: Aiko, can you pull the fire alarm to get attention?
 response: Are you sure? That might cause a lot of commotion.

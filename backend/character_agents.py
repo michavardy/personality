@@ -134,10 +134,14 @@ class CharacterAgentNode:
 async def all_characters_node(state: State, config: dict) -> dict[str,list[CharacterMessage]]:
     global AGENTS_CACHE
     logger.debug(f'all_characters_node')
+    character_messages = [msg for msg in filter(lambda message: message.class_type=='character_message', state.messages)]
     character_agents = AGENTS_CACHE
-    messages = await asyncio.gather(
-        *(agent.run(state) for agent in character_agents.values())
-    )
+    if character_messages[-1].speaker in character_agents.keys():
+        # if a character thats not the user is prompting, he should not respond to his own prompt
+        agents = {agent:node for agent,node in character_agents.items() if agent != character_messages[-1].speaker}
+        messages = await asyncio.gather(*(agent.run(state) for agent in agents.values()))
+    else:
+        messages = await asyncio.gather(*(agent.run(state) for agent in character_agents.values()))
     messages = [msg for message in messages for msg in message['messages']]
     return {"messages":messages}
 def cosine_similarity_manual(a: np.ndarray, b: np.ndarray) -> float:

@@ -20,7 +20,14 @@ trigger_prompt_list = [
         speaker="martin_orchard",
         audience="joseph_enriquez",
         trigger_type="initial",
-        content="hey man, are you ok? you don't look so well!",
+        content="hey joseph, are you ok? you don't look so well!",
+    ),
+    Prompt(
+        all_characters_color_map=None,
+        speaker="joseph_enriquez",
+        audience= "martin_orchard",
+        trigger_type="initial",
+        content="no I really don't feel so good",
     ),
     Prompt(
         all_characters_color_map=None,

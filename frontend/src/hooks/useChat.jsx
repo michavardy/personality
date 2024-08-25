@@ -6,55 +6,139 @@ const useChat = () => {
 
   const [charactersColorMap, setCharactersColorMap] = useState({});
   const [promptHistory, setPromptHistory] = useState([])
+  const [ userID, setUserId] = useState(null)
+  const [threadId, setThreadId] = useState(null)
   const baseUrl =`http://${window.location.hostname}:80`
 
-const fetchCharactersColorMap = async () => {
-  if (Object.keys(charactersColorMap).length === 0) {
-  const response = await fetch(`${baseUrl}/characters_color_map`);
-  const data = await response.json();
-  setCharactersColorMap(data.characters_color_map);
-  }
-};
 
-const fetchInitialPrompt = async () => {
-  try {
-    const response = await fetch(`${baseUrl}/initial_prompt`);
-    const data = await response.json();
-
-    // Log the response to verify the structure
-    console.log(data);
-
-    // Extract the array from the data object
-    const prompts = data.response;
-
-    // Ensure prompts is an array before mapping
-    if (Array.isArray(prompts)) {
-      const initPromptHistory = prompts.map((prompt) => ({
-        all_characters_color_map: charactersColorMap,
-        speaker: prompt.speaker,
-        audience: prompt.audience,
-        trigger_type: prompt.trigger_type,  // Updated to match your data structure
-        content: prompt.content,
-      }));
-      setPromptHistory(initPromptHistory);
-    } else {
-      console.error("Expected an array but got:", prompts);
-    }
-  } catch (error) {
-    console.error("Failed to fetch initial prompt:", error);
-  }
-};
+  const postSignIn = async ({ username, password }) => {
+    const response = await fetch(`${baseUrl}/sign_in`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json" // Set the content type to JSON
+      },
+      body: JSON.stringify({ // Convert the object to JSON string
+        username: username,
+        password: password
+      })
+    });
+    if (response.ok) {
+      // Extract the headers
+      const threadIdHeader = response.headers.get("thread_id");
+      const userIdHeader = response.headers.get("user_id");
   
+      // Save the values in state variables
+      setUserId(userIdHeader);
+      setThreadId(threadIdHeader);
+    } else {
+      // Handle errors
+      console.error("Sign-in failed:", response.statusText);
+    }
+    const data = await response.json(); // Parse the JSON response
+    return data;
+  };
+  
+  const postRegisterNewUser = async ({ username, password, email }) => {
+    const response = await fetch(`${baseUrl}/register_new_user`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json" // Set the content type to JSON
+      },
+      body: JSON.stringify({ // Convert the object to JSON string
+        username: username,
+        password: password,
+        email:email,
+      })
+    });
+    if (response.ok) {
+      // Extract the headers
+      const threadIdHeader = response.headers.get("thread_id");
+      const userIdHeader = response.headers.get("user_id");
+  
+      // Save the values in state variables
+      setUserId(userIdHeader);
+      setThreadId(threadIdHeader);
+    } else {
+      // Handle errors
+      console.error("Sign-in failed:", response.statusText);
+    }
+    const data = await response.json(); // Parse the JSON response
+    return data;
+  };
+
+
+  const fetchCharactersColorMap = async () => {
+    if (userID && threadId && Object.keys(charactersColorMap).length === 0) {
+      const response = await fetch(`${baseUrl}/characters_color_map`, {
+        headers: {
+          "user_id": userID,
+          "thread_id": threadId,
+        },
+      });
+      const data = await response.json();
+      setCharactersColorMap(data.characters_color_map);
+    }
+  };
+
+  const fetchInitialPrompt = async () => {
+    if (userID && threadId) {
+      try {
+        const response = await fetch(`${baseUrl}/initial_prompt`, {
+          headers: {
+            "user_id": userID,
+            "thread_id": threadId,
+          },
+        });
+        const data = await response.json();
+
+        console.log(data);
+
+        const prompts = data.response;
+
+        if (Array.isArray(prompts)) {
+          const initPromptHistory = prompts.map((prompt) => ({
+            all_characters_color_map: charactersColorMap,
+            speaker: prompt.speaker,
+            audience: prompt.audience,
+            trigger_type: prompt.trigger_type,
+            content: prompt.content,
+          }));
+          setPromptHistory(initPromptHistory);
+        } else {
+          console.error("Expected an array but got:", prompts);
+        }
+      } catch (error) {
+        console.error("Failed to fetch initial prompt:", error);
+      }
+    }
+  };
+
   useEffect(() => {
-    fetchCharactersColorMap(),[]
-  });
+    if (userID && threadId) {
+      fetchCharactersColorMap();
+    }
+  }, [userID, threadId]);
+
   useEffect(() => {
-    if (Object.keys(charactersColorMap).length > 0) { // Ensure charactersColorMap is not empty
+    if (userID && threadId && Object.keys(charactersColorMap).length > 0) {
       fetchInitialPrompt();
     }
-  }, [charactersColorMap]);
+  }, [userID, threadId, charactersColorMap]);
 
-
+const sendTrigger = async() => {
+  const response = await fetch(`${baseUrl}/trigger_prompt`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      "user_id": userID,
+      "thread_id": threadId,
+    },
+    body: JSON.stringify(promptHistory),
+  });
+  const newPromptHistory =  await response.json();
+  setPromptHistory(newPromptHistory.response)
+  
+}
 const sendMessage = async ({speaker,audience, trigger, content}) => {
       // Create a new prompt object
       const newPrompt = {
@@ -70,6 +154,8 @@ const sendMessage = async ({speaker,audience, trigger, content}) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          "user_id": userID,
+          "thread_id": threadId,
         },
         body: JSON.stringify(updatedPromptHistory),
       });
@@ -79,8 +165,13 @@ const sendMessage = async ({speaker,audience, trigger, content}) => {
 
   return {
     sendMessage,
+    sendTrigger,
     charactersColorMap,
-    promptHistory
+    promptHistory,
+    userID, 
+    threadId,
+    postSignIn,
+    postRegisterNewUser
   };
 };
 
