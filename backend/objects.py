@@ -10,6 +10,12 @@ class Prompt(BaseModel):
     audience: str
     trigger_type: Literal["initial","trigger","user_prompt","response"]
     content: str
+
+class Conversation(BaseModel):
+    user_id: int
+    thread_id: str
+    date_time: int
+    conversation: list[Prompt]
     
 class UserData(BaseModel):
     thread_id: str

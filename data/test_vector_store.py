@@ -75,9 +75,9 @@ def create_and_load_vector_stores(db_path: str, seperator:str='\n', chunk_size:i
         #"scenario" : Path('scenarios/stuck_in_elevator/scenario.md').read_text(),
         "validation" : Path('scenarios/stuck_in_elevator/validation.md').read_text(),
         #"win_condition" : Path('scenarios/stuck_in_elevator/win_condition.md').read_text(),
-        "aiko_robertson" : Path('scenarios/stuck_in_elevator/characters/Aiko_Robertson.md').read_text(),
-        "martin_orchard" : Path('scenarios/stuck_in_elevator/characters/Martin_Orchard.md').read_text(),
-        "joseph_enriquez" : Path('scenarios/stuck_in_elevator/characters/Joseph_Enriquez.md').read_text(),
+        "aiko_robertson" : Path('scenarios/stuck_in_elevator/characters/aiko_robertson.md').read_text(),
+        "martin_orchard" : Path('scenarios/stuck_in_elevator/characters/martin_orchard.md').read_text(),
+        "joseph_enriquez" : Path('scenarios/stuck_in_elevator/characters/joseph_enriquez.md').read_text(),
         #"mc" : Path('scenarios/stuck_in_elevator/characters/mc.md').read_text()
     }
     vdb_dict = {}

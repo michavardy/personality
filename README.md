@@ -26,9 +26,19 @@ npm run dev
 ## build container
 ```bash
 docker build -t person .
-docker run -d -p 80:80 --name pc person
+docker volume create sqlite_data
+docker run -d -p 80:80 --name pc person -v sqlite_data:/app/data/records.db person
 # Copy Key into database
-#docker run --env-file .env -d -p 80:80 --name pc person
+```
+## run app
+```bash
+http://167.99.134.62/
+# interact with database
+docker run --rm -it -v sqlite_data:/data alpine sh
+```
+
+## Remove Container
+```bash
 docker stop pc
 docker container prune
 docker image rm person
